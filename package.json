@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "dev": "npx ts-node --require ./src/instrumentation.ts src/main.ts"
+    "dev": "npx ts-node --require ./src/instrumentation.ts src/main.ts | bunyan"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
@@ -23,6 +23,8 @@
     "@opentelemetry/sdk-metrics": "^1.21.0",
     "@opentelemetry/sdk-node": "^0.48.0",
     "@opentelemetry/sdk-trace-node": "^1.21.0",
+    "@types/bunyan": "^1.8.11",
+    "bunyan": "^1.8.15",
     "ts-node": "^10.9.2"
   }
 }
