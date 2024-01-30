@@ -1,14 +1,14 @@
-export type Project = {
+export interface Project {
   id: number;
   name: string;
   releases: Release[];
-};
-export type Deployment = {
+}
+export interface Deployment {
   id: number;
   releaseId: number;
   environmentId: number;
   deploymentDate: Date;
-};
+}
 
 export type Release = {
   id: number;
@@ -17,7 +17,7 @@ export type Release = {
   deployments: Deployment[];
 };
 
-export type Environment = {
+export interface Environment {
   id: number;
   name: string;
-};
+}
