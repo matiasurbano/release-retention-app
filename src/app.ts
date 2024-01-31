@@ -23,17 +23,22 @@ export async function init() {
   const KEEP: number = 2;
   const keptReleasesResult: Release[] = [];
 
-  // only keep deployments that have a valid environment
-  const filteredDeployments = deployments.filter((deployment) =>
-    environments.some(
-      (environment) => environment.id === deployment.environmentId
-    )
-  );
-
   // only keep deployments that have a valid release
   const filteredReleases = releases.filter((release) =>
     projects.some((project) => project.id === release.projectId)
   );
+
+  // only keep deployments that have a valid environment
+  const filteredDeployments = deployments
+    .filter((deployment) =>
+      environments.some(
+        (environment) => environment.id === deployment.environmentId
+      )
+    )
+    // only keep deployments that have a valid project
+    .filter((deployment) =>
+      filteredReleases.some((release) => release.id === deployment.releaseId)
+    );
 
   // converting to object for easier lookup
   const filteredReleasesDictionary = arrayToObject(

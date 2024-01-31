@@ -13,11 +13,11 @@ enum DATA_PATH {
 
 export async function parseData<T>(fileTypePath: DATA_PATH): Promise<T[]> {
   try {
-    log.info("Parsing Releases.json");
+    log.info(`Parsing ${fileTypePath}`);
     const data = await readFile(join(__dirname, fileTypePath), "utf-8");
     return convertToCamelCase<T>(data);
   } catch (error) {
-    log.error("Error parsing Releases.json:", error);
+    log.error(`Error parsing ${fileTypePath}:`, error);
     return [];
   }
 }
