@@ -5,10 +5,10 @@ import { convertToCamelCase } from "../utils";
 import { join } from "path";
 
 enum DATA_PATH {
-  RELEASES = "./data/Releases.json",
-  DEPLOYMENTS = "./data/Deployments.json",
-  PROJECTS = "./data/Projects.json",
-  ENVIRONMENTS = "./data/Environments.json",
+  RELEASES = "../data/Releases.json",
+  DEPLOYMENTS = "../data/Deployments.json",
+  PROJECTS = "../data/Projects.json",
+  ENVIRONMENTS = "../data/Environments.json",
 }
 
 export async function parseData<T>(fileTypePath: DATA_PATH): Promise<T[]> {

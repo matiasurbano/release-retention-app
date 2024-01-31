@@ -1,23 +1,26 @@
 export interface Project {
-  id: number;
+  id: string;
   name: string;
   releases: Release[];
 }
 export interface Deployment {
-  id: number;
-  releaseId: number;
-  environmentId: number;
-  deploymentDate: Date;
+  id: string;
+  releaseId: string;
+  environmentId: string;
+  deployedAt: string;
+}
+export interface DeploymentEnrichedWithProject extends Deployment {
+  projectId: string;
 }
 
 export type Release = {
-  id: number;
+  id: string;
   version: string;
-  projectId: number;
+  projectId: string;
   deployments: Deployment[];
 };
 
 export interface Environment {
-  id: number;
+  id: string;
   name: string;
 }

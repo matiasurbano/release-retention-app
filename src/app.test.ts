@@ -1,4 +1,4 @@
-import { parseReleases, sillyFunction } from "../app";
+import { parseReleases, sillyFunction } from "./app";
 
 describe("silly function", () => {
   test("returns true", () => {
