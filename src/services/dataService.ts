@@ -1,8 +1,7 @@
 import { readFile } from "fs/promises";
-import { log } from "../logger";
-import { Deployment, Environment, Project, Release } from "../models";
-import { convertToCamelCase } from "../utils";
 import { join } from "path";
+import { log } from "../logger";
+import { convertToCamelCase } from "../utils";
 
 export enum DATA_PATH {
   RELEASES = "../data/Releases.json",

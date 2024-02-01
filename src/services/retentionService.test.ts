@@ -329,7 +329,6 @@ describe("applyRule", () => {
 
     // Assertions
     expect(keptReleases).toHaveLength(4);
-    console.log(keptReleases);
     expect(keptReleases).toEqual([
       // Up to 3 Project 1 releases should be kept.
       {
@@ -374,7 +373,6 @@ describe("applyRule", () => {
 
     // Assertions
     expect(keptReleases).toHaveLength(3);
-    console.log(keptReleases);
     expect(keptReleases).toEqual([
       // Up to 2 Project 1 releases should be kept.
       {
@@ -413,7 +411,6 @@ describe("applyRule", () => {
 
     // Assertions
     expect(keptReleases).toHaveLength(2);
-    console.log(keptReleases);
     expect(keptReleases).toEqual([
       // Up to 1 Project 1 releases should be kept.
       {
