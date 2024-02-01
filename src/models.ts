@@ -1,7 +1,6 @@
 export interface Project {
   id: string;
   name: string;
-  releases: Release[];
 }
 export interface Deployment {
   id: string;
@@ -17,7 +16,7 @@ export type Release = {
   id: string;
   version: string;
   projectId: string;
-  deployments: Deployment[];
+  created: string;
 };
 
 export interface Environment {
