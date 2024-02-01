@@ -5,13 +5,17 @@ import {
   PeriodicExportingMetricReader,
   ConsoleMetricExporter,
 } from "@opentelemetry/sdk-metrics";
+import { BunyanInstrumentation } from "@opentelemetry/instrumentation-bunyan";
 
 const sdk = new NodeSDK({
   traceExporter: new ConsoleSpanExporter(),
   metricReader: new PeriodicExportingMetricReader({
     exporter: new ConsoleMetricExporter(),
   }),
-  instrumentations: [getNodeAutoInstrumentations()],
+  instrumentations: [
+    getNodeAutoInstrumentations(),
+    new BunyanInstrumentation({}),
+  ],
 });
 
 sdk.start();
