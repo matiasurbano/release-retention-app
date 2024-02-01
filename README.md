@@ -38,7 +38,7 @@ On the project root folder copy the .env from the .env.example
   Will let us see Bunyan DEBUG logs as well as
 
 - `KEEP_NUBER_OF_RELEASES=2`
-  It will define the number of releases to keep that is passed to the `applyRule` function
+  It will define the number of releases to keep that is passed to the `applyRule` function. Feel free to update this value and run it again to see different outcomes.
 
 ### Run process
 
@@ -74,3 +74,7 @@ I defined the following validations:
 - A **Deployment** is invalid and not considered when:
   - it has non exiting ENVIRONMENT ID
   - it has non existing Release/Project combination
+
+### Ideas
+
+I wrote down a number of ideas that I woukd love to discuss with the team during the interview.
