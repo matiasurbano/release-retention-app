@@ -98,7 +98,7 @@ export const applyRule = async (
   releases: Release[],
   deployments: Deployment[]
 ): Promise<Release[]> => {
-  log.info("Applying rule");
+  log.info(`APPLYING RULE TO KEEP ${keep} RELEASES PER PROJECT/ENVIRONMENT`);
 
   const filteredEnvironments = filterValidEnvironments(environments);
   const filteredProjects = filterValidProjects(projects);

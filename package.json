@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "dev": "npx ts-node -r dotenv/config -r ./src/instrumentation.ts src/app.ts | bunyan -o short"
+    "start": "npx ts-node -r dotenv/config -r ./src/instrumentation.ts src/app.ts | bunyan -o short"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
