@@ -14,7 +14,7 @@ import { arrayToObject, convertToOrdinal, groupByKey } from "../utils";
  * @param projects - The array of projects to filter.
  * @returns An array of valid projects.
  */
-const filterValidProjects = (projects: Project[]): Project[] => {
+export const filterValidProjects = (projects: Project[]): Project[] => {
   return projects.filter((project) => project.id !== null && project.id !== "");
 };
 
@@ -24,7 +24,7 @@ const filterValidProjects = (projects: Project[]): Project[] => {
  * @param environments - The array of environments to filter.
  * @returns The filtered array of valid environments.
  */
-const filterValidEnvironments = (
+export const filterValidEnvironments = (
   environments: Environment[]
 ): Environment[] => {
   return environments.filter(
@@ -39,7 +39,7 @@ const filterValidEnvironments = (
  * @param projects - The list of projects to check for release validity.
  * @returns The filtered list of valid releases.
  */
-const filterValidReleases = (
+export const filterValidReleases = (
   releases: Release[],
   projects: Project[]
 ): Release[] => {
@@ -61,7 +61,7 @@ const filterValidReleases = (
  * @param releases - The list of releases to validate against.
  * @returns The filtered list of deployments.
  */
-const filterValidDeployments = (
+export const filterValidDeployments = (
   deployments: Deployment[],
   environments: Environment[],
   releases: Release[]
@@ -175,13 +175,15 @@ export function applyRule(
                   index: number
                 ) => {
                   log.info(
-                    `${enrichedDeployment.releaseId} kept from ${
+                    `Release (${
+                      enrichedDeployment.releaseId
+                    }) kept from project (${
                       enrichedDeployment.projectId
-                    } because it was the ${convertToOrdinal(
+                    }) because it was the ${convertToOrdinal(
                       index + 1
-                    )} most recently deployed to ${
+                    )} most recently deployed to the environment (${
                       enrichedDeployment.environmentId
-                    } by deployment ${enrichedDeployment.id}`
+                    }) by deployment (${enrichedDeployment.id})`
                   );
 
                   return filteredReleasesDictionary[
