@@ -20,7 +20,7 @@ export async function init() {
   const deployments = await getDeployments();
 
   // Validating data.
-  const KEEP: number = 10;
+  const KEEP: number = 2;
   const keptReleasesResult: Release[] = [];
 
   // only keep deployments that have a valid release
@@ -75,6 +75,8 @@ export async function init() {
         ([projectId, deploymentReleases]) => {
           log.info("Project Id:", projectId);
 
+          const keptReleasesWithLatestDeploymentDates: DeploymentEnrichedWithProject[] =
+            [];
           const keptReleases = deploymentReleases
             .sort(
               (
@@ -82,11 +84,21 @@ export async function init() {
                 b: DeploymentEnrichedWithProject
               ) => b.deployedAt.localeCompare(a.deployedAt)
             )
+            .filter((deployment) => {
+              if (
+                !keptReleasesWithLatestDeploymentDates.some(
+                  (keptDeployment) =>
+                    keptDeployment.releaseId === deployment.releaseId
+                )
+              ) {
+                keptReleasesWithLatestDeploymentDates.push(deployment);
+                return deployment;
+              }
+            })
             .slice(0, KEEP);
 
           if (keptReleases && keptReleases.length > 0) {
-            // Iterate and add justification
-
+            // Iterate and add justification for keeping the release
             keptReleasesResult.push(
               ...keptReleases.map(
                 (
