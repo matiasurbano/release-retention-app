@@ -4,7 +4,7 @@ import { Deployment, Environment, Project, Release } from "../models";
 import { convertToCamelCase } from "../utils";
 import { join } from "path";
 
-enum DATA_PATH {
+export enum DATA_PATH {
   RELEASES = "../data/Releases.json",
   DEPLOYMENTS = "../data/Deployments.json",
   PROJECTS = "../data/Projects.json",
@@ -22,18 +22,6 @@ export async function parseData<T>(fileTypePath: DATA_PATH): Promise<T[]> {
   }
 }
 
-export async function getProjects(): Promise<Project[]> {
-  return parseData<Project>(DATA_PATH.PROJECTS);
-}
-
-export async function getEnvironments(): Promise<Environment[]> {
-  return parseData<Environment>(DATA_PATH.ENVIRONMENTS);
-}
-
-export async function getReleases(): Promise<Release[]> {
-  return parseData<Release>(DATA_PATH.RELEASES);
-}
-
-export async function getDeployments(): Promise<Deployment[]> {
-  return parseData<Deployment>(DATA_PATH.DEPLOYMENTS);
+export async function getDataset<T>(dataPath: DATA_PATH): Promise<T[]> {
+  return parseData<T>(dataPath);
 }
