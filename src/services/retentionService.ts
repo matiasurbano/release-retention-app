@@ -7,6 +7,7 @@ import {
 } from "../models";
 import { log } from "../logger";
 import { arrayToObject, convertToOrdinal, groupByKey } from "../utils";
+import { release } from "os";
 
 /**
  * Filters out invalid projects with null or empty string Ids.
@@ -132,7 +133,7 @@ export function applyRule(
   const keptReleasesResult: Release[] = [];
   Object.entries(deploymentsByEnvironmentIds).forEach(
     ([environmentId, deploymentsInEnvironment]) => {
-      log.info("Environment Id:", environmentId);
+      log.info("ENVIRONMENT ID:", environmentId);
 
       // Sub-Grouping deployments by project
       const deploymentsByEnvironmentAndProject = groupByKey(
@@ -142,7 +143,7 @@ export function applyRule(
 
       Object.entries(deploymentsByEnvironmentAndProject).forEach(
         ([projectId, deploymentReleases]) => {
-          log.info("Project Id:", projectId);
+          log.info("PROJECT ID:", projectId);
 
           const keptReleasesWithLatestDeploymentDates: DeploymentEnrichedWithProject[] =
             [];
@@ -197,5 +198,10 @@ export function applyRule(
       );
     }
   );
-  return keptReleasesResult;
+  return keptReleasesResult
+    .map((release) => release.id)
+    .filter((item, index, array) => {
+      return array.indexOf(item) === index;
+    })
+    .map((releaseId) => filteredReleasesDictionary[releaseId] as Release);
 }

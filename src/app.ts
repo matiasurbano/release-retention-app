@@ -5,6 +5,9 @@ import { applyRule } from "./services/retentionService";
 import { api } from "@opentelemetry/sdk-node";
 const { name } = require("../package.json");
 
+const KEEP_NUBER_OF_RELEASES =
+  parseInt(process.env.KEEP_NUBER_OF_RELEASES ?? "", 10) || 1;
+
 export async function init() {
   // Creating a OpenTelemetry Tracer to enable effective observability
   const tracer = api.trace.getTracer(name);
@@ -14,17 +17,14 @@ export async function init() {
     const releases = await getDataset<Release>(DATA_PATH.RELEASES);
     const deployments = await getDataset<Deployment>(DATA_PATH.DEPLOYMENTS);
 
-    // Validating data.
-    const keep: number = 3;
-
     const keptReleases: Release[] = await applyRule(
-      keep,
+      KEEP_NUBER_OF_RELEASES,
       projects,
       environments,
       releases,
       deployments
     );
-    log.info("RESULT => Kept Releases:", keptReleases);
+    log.info("Kept Releases: ", keptReleases);
   });
 }
 
