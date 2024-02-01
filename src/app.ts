@@ -19,7 +19,7 @@ export async function init() {
   const deployments = await getDeployments();
 
   // Validating data.
-  const keep: number = 2;
+  const keep: number = 3;
   const keptReleases: Release[] = await applyRule(
     keep,
     projects,
