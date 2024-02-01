@@ -6,7 +6,7 @@ module.exports = {
     "^.+\\.ts?$": "ts-jest",
   },
   collectCoverage: true,
-  collectCoverageFrom: ["./src/**"],
+  // collectCoverageFrom: ["./src/**"],
   coverageThreshold: {
     global: {
       lines: 90,

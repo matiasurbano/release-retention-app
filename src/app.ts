@@ -20,3 +20,5 @@ export async function init() {
   );
   log.info("Kept Releases:", keptReleases);
 }
+
+init();
