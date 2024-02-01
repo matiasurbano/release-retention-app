@@ -20,13 +20,15 @@ export async function init() {
   const deployments = await getDeployments();
 
   // Validating data.
-  const KEEP: number = 2;
+  const KEEP: number = 10;
   const keptReleasesResult: Release[] = [];
 
   // only keep deployments that have a valid release
-  const filteredReleases = releases.filter((release) =>
-    projects.some((project) => project.id === release.projectId)
-  );
+  const filteredReleases = releases
+    .filter((release) => release.version !== null)
+    .filter((release) =>
+      projects.some((project) => project.id === release.projectId)
+    );
 
   // only keep deployments that have a valid environment
   const filteredDeployments = deployments
@@ -78,7 +80,7 @@ export async function init() {
               (
                 a: DeploymentEnrichedWithProject,
                 b: DeploymentEnrichedWithProject
-              ) => a.deployedAt.localeCompare(b.deployedAt)
+              ) => b.deployedAt.localeCompare(a.deployedAt)
             )
             .slice(0, KEEP);
 
@@ -87,23 +89,31 @@ export async function init() {
 
             keptReleasesResult.push(
               ...keptReleases.map(
-                (release: DeploymentEnrichedWithProject, index: number) => {
+                (
+                  enrichedDeployment: DeploymentEnrichedWithProject,
+                  index: number
+                ) => {
                   log.info(
-                    `${
-                      release.releaseId
-                    } kept from ${projectId} because it was the most ${convertToOrdinal(
+                    `${enrichedDeployment.releaseId} kept from ${
+                      enrichedDeployment.projectId
+                    } because it was the ${convertToOrdinal(
                       index + 1
-                    )} recently deployed to ${environmentId}`,
-                    release.id
+                    )} most recently deployed to ${
+                      enrichedDeployment.environmentId
+                    } by deployment ${enrichedDeployment.id}`
                   );
 
-                  return filteredReleasesDictionary[release.id] as Release;
+                  return filteredReleasesDictionary[
+                    enrichedDeployment.releaseId
+                  ] as Release;
                 }
               )
             );
           }
         }
       );
+
+      log.info("Kept Releases:", keptReleasesResult);
     }
   );
 }

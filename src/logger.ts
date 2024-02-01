@@ -6,7 +6,7 @@ export const log = bunyan.createLogger({
   name,
   version,
   serializers: bunyan.stdSerializers,
-  src: true, // ONLY FOR DEVELOPMENT
+  src: false, // ONLY FOR DEVELOPMENT
   //   streams: [
   //     {
   //       path: "./logs.log",
