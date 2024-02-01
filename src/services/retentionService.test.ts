@@ -315,11 +315,11 @@ describe("applyRule", () => {
       deployedAt: "2022-01-05T12:00:00",
     },
   ];
-  test("returns an array that keeps up to 3 releases per project/environment", () => {
+  test("returns an array that keeps up to 3 releases per project/environment", async () => {
     // Mock data
     const keep = 3;
 
-    const keptReleases = applyRule(
+    const keptReleases = await applyRule(
       keep,
       projects,
       environments,
@@ -359,11 +359,11 @@ describe("applyRule", () => {
     ]);
   });
 
-  test("returns an array that keeps up to 2 releases per project/environment", () => {
+  test("returns an array that keeps up to 2 releases per project/environment", async () => {
     // Mock data
     const keep = 2;
 
-    const keptReleases = applyRule(
+    const keptReleases = await applyRule(
       keep,
       projects,
       environments,
@@ -397,11 +397,11 @@ describe("applyRule", () => {
     ]);
   });
 
-  test("returns an array that keeps up to 1 releases per project/environment", () => {
+  test("returns an array that keeps up to 1 releases per project/environment", async () => {
     // Mock data
     const keep = 1;
 
-    const keptReleases = applyRule(
+    const keptReleases = await applyRule(
       keep,
       projects,
       environments,

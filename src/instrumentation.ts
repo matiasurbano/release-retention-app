@@ -7,6 +7,7 @@ import {
 } from "@opentelemetry/sdk-metrics";
 import { BunyanInstrumentation } from "@opentelemetry/instrumentation-bunyan";
 
+// defining the OpenTelemetry intrumentation
 const sdk = new NodeSDK({
   traceExporter: new ConsoleSpanExporter(),
   metricReader: new PeriodicExportingMetricReader({

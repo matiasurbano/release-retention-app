@@ -1,5 +1,5 @@
+import { Project } from "../models";
 import * as dataService from "./dataService";
-import { Deployment, Environment, Project, Release } from "../models";
 
 jest.mock("fs/promises", () => ({
   readFile: jest.fn().mockResolvedValue(

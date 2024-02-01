@@ -8,7 +8,7 @@ const { name } = require("../package.json");
 const KEEP_NUBER_OF_RELEASES =
   parseInt(process.env.KEEP_NUBER_OF_RELEASES ?? "", 10) || 1;
 
-export async function init() {
+export const init = async () => {
   // Creating a OpenTelemetry Tracer to enable effective observability
   const tracer = api.trace.getTracer(name);
   tracer.startActiveSpan("Starting applyRule", async (span) => {
@@ -26,6 +26,8 @@ export async function init() {
     );
     log.info("Kept Releases: ", keptReleases);
   });
-}
+};
 
-init();
+(async () => {
+  await init();
+})();

@@ -1,3 +1,4 @@
+import { log } from "../logger";
 import {
   Deployment,
   DeploymentEnrichedWithProject,
@@ -5,9 +6,7 @@ import {
   Project,
   Release,
 } from "../models";
-import { log } from "../logger";
 import { arrayToObject, convertToOrdinal, groupByKey } from "../utils";
-import { release } from "os";
 
 /**
  * Filters out invalid projects with null or empty string Ids.
@@ -92,13 +91,13 @@ export const filterValidDeployments = (
  * @param deployments - An array of deployments.
  * @returns An array of releases that meet the retention rule.
  */
-export function applyRule(
+export const applyRule = async (
   keep: number,
   projects: Project[],
   environments: Environment[],
   releases: Release[],
   deployments: Deployment[]
-): Release[] {
+): Promise<Release[]> => {
   log.info("Applying rule");
 
   const filteredEnvironments = filterValidEnvironments(environments);
@@ -204,4 +203,4 @@ export function applyRule(
       return array.indexOf(item) === index;
     })
     .map((releaseId) => filteredReleasesDictionary[releaseId] as Release);
-}
+};
