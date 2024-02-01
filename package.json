@@ -6,7 +6,7 @@
   "author": "Matias Urbano",
   "license": "MIT",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "build": "tsc",
     "dev": "npx ts-node --require ./src/instrumentation.ts src/main.ts | bunyan -o short"
   },
