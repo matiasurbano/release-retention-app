@@ -242,81 +242,82 @@ describe("filterValidDeployments", () => {
 });
 
 describe("applyRule", () => {
-  test("returns an array of kept releases", () => {
+  // Common scenario
+  const projects = [
+    { id: "1", name: "Project 1" },
+    { id: "2", name: "Project 2" },
+  ];
+  const environments = [
+    { id: "1", name: "Environment 1" },
+    { id: "2", name: "Environment 2" },
+  ];
+  const releases = [
+    {
+      id: "1",
+      projectId: "1",
+      version: "1.0.0",
+      created: "2022-01-01T10:00:00",
+    },
+    {
+      id: "2",
+      projectId: "1",
+      version: "1.1.0",
+      created: "2022-01-01T11:00:00",
+    },
+    {
+      id: "3",
+      projectId: "2",
+      version: "2.0.0",
+      created: "2022-01-02T09:00:00",
+    },
+    {
+      id: "4",
+      projectId: "2",
+      version: "2.1.0",
+      created: "2022-01-03T10:00:00",
+    },
+    {
+      id: "5",
+      projectId: "2",
+      version: "2.2.0",
+      created: "2022-01-08T11:00:00",
+    },
+  ];
+  const deployments = [
+    {
+      id: "1",
+      releaseId: "1",
+      environmentId: "1",
+      deployedAt: "2022-01-01T08:00:00",
+    },
+    {
+      id: "2",
+      releaseId: "1",
+      environmentId: "1",
+      deployedAt: "2022-01-02T09:00:00",
+    },
+    {
+      id: "3",
+      releaseId: "3",
+      environmentId: "2",
+      deployedAt: "2022-01-03T07:00:00",
+    },
+    {
+      id: "4",
+      releaseId: "4",
+      environmentId: "2",
+      deployedAt: "2022-01-04T10:00:00",
+    },
+    {
+      id: "5",
+      releaseId: "5",
+      environmentId: "2",
+      deployedAt: "2022-01-05T12:00:00",
+    },
+  ];
+  test("returns an array that keeps up to 3 releases per project/environment", () => {
     // Mock data
     const keep = 3;
-    const projects = [
-      { id: "1", name: "Project 1" },
-      { id: "2", name: "Project 2" },
-    ];
-    const environments = [
-      { id: "1", name: "Environment 1" },
-      { id: "2", name: "Environment 2" },
-    ];
-    const releases = [
-      {
-        id: "1",
-        projectId: "1",
-        version: "1.0.0",
-        created: "2022-01-01T10:00:00",
-      },
-      {
-        id: "2",
-        projectId: "1",
-        version: "1.1.0",
-        created: "2022-01-01T11:00:00",
-      },
-      {
-        id: "3",
-        projectId: "2",
-        version: "2.0.0",
-        created: "2022-01-02T09:00:00",
-      },
-      {
-        id: "4",
-        projectId: "2",
-        version: "2.1.0",
-        created: "2022-01-03T10:00:00",
-      },
-      {
-        id: "5",
-        projectId: "2",
-        version: "2.2.0",
-        created: "2022-01-08T11:00:00",
-      },
-    ];
-    const deployments = [
-      {
-        id: "1",
-        releaseId: "1",
-        environmentId: "1",
-        deployedAt: "2022-01-01T08:00:00",
-      },
-      {
-        id: "2",
-        releaseId: "1",
-        environmentId: "1",
-        deployedAt: "2022-01-02T09:00:00",
-      },
-      {
-        id: "3",
-        releaseId: "3",
-        environmentId: "2",
-        deployedAt: "2022-01-03T07:00:00",
-      },
-      {
-        id: "4",
-        releaseId: "4",
-        environmentId: "2",
-        deployedAt: "2022-01-04T10:00:00",
-      },
-      {
-        id: "5",
-        releaseId: "5",
-        environmentId: "2",
-        deployedAt: "2022-01-05T12:00:00",
-      },
-    ];
 
     const keptReleases = applyRule(
       keep,
@@ -327,17 +328,107 @@ describe("applyRule", () => {
     );
 
     // Assertions
-    expect(keptReleases).toHaveLength(keep);
+    expect(keptReleases).toHaveLength(4);
+    console.log(keptReleases);
     expect(keptReleases).toEqual([
-      { id: 2, projectId: 1, version: "1.1.0", created: "2022-01-01T11:00:00" },
+      // Up to 3 Project 1 releases should be kept.
       {
-        id: 3,
-        projectId: 2,
-        version: "2.0.0",
-        created: "2022-01-04T10:00:00",
+        id: "1",
+        projectId: "1",
+        version: "1.0.0",
+        created: "2022-01-01T10:00:00",
       },
-      { id: 5, projectId: 2, version: "2.2.0", created: "2022-01-08T11:00:00" },
-      { id: 4, projectId: 2, version: "2.1.0", created: "2022-01-03T10:00:00" },
+      // Up to 3 Project 2 releases should be kept.
+      {
+        id: "5",
+        projectId: "2",
+        version: "2.2.0",
+        created: "2022-01-08T11:00:00",
+      },
+      {
+        id: "4",
+        projectId: "2",
+        version: "2.1.0",
+        created: "2022-01-03T10:00:00",
+      },
+      {
+        id: "3",
+        projectId: "2",
+        version: "2.0.0",
+        created: "2022-01-02T09:00:00",
+      },
+    ]);
+  });
+
+  test("returns an array that keeps up to 2 releases per project/environment", () => {
+    // Mock data
+    const keep = 2;
+
+    const keptReleases = applyRule(
+      keep,
+      projects,
+      environments,
+      releases,
+      deployments
+    );
+
+    // Assertions
+    expect(keptReleases).toHaveLength(3);
+    console.log(keptReleases);
+    expect(keptReleases).toEqual([
+      // Up to 2 Project 1 releases should be kept.
+      {
+        id: "1",
+        projectId: "1",
+        version: "1.0.0",
+        created: "2022-01-01T10:00:00",
+      },
+      // Up to 2 Project 2 releases should be kept.
+      {
+        id: "5",
+        projectId: "2",
+        version: "2.2.0",
+        created: "2022-01-08T11:00:00",
+      },
+      {
+        id: "4",
+        projectId: "2",
+        version: "2.1.0",
+        created: "2022-01-03T10:00:00",
+      },
+    ]);
+  });
+
+  test("returns an array that keeps up to 1 releases per project/environment", () => {
+    // Mock data
+    const keep = 1;
+
+    const keptReleases = applyRule(
+      keep,
+      projects,
+      environments,
+      releases,
+      deployments
+    );
+
+    // Assertions
+    expect(keptReleases).toHaveLength(2);
+    console.log(keptReleases);
+    expect(keptReleases).toEqual([
+      // Up to 1 Project 1 releases should be kept.
+      {
+        id: "1",
+        projectId: "1",
+        version: "1.0.0",
+        created: "2022-01-01T10:00:00",
+      },
+      // Up to 1 Project 2 releases should be kept.
+      {
+        id: "5",
+        projectId: "2",
+        version: "2.2.0",
+        created: "2022-01-08T11:00:00",
+      },
     ]);
   });
 });
